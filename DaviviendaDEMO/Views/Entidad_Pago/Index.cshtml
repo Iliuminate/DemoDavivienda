@@ -4,11 +4,8 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<h2>Lista de movimientos</h2>
+<br>
 <table class="table">
     <tr>
         <th>
@@ -41,11 +38,16 @@
             @Html.DisplayFor(modelItem => item.estado)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+            @Html.ActionLink("Editar", "Edit", new { id=item.id }, new { @class = "btn btn-warning" }) |
+            @Html.ActionLink("Detalles", "Details", new { id=item.id }, new { @class = "btn btn-info" }) |
+            @Html.ActionLink("Eliminar", "Delete", new { id=item.id }, new { @class = "btn btn-danger" })
         </td>
     </tr>
 }
-
 </table>
+<br>
+
+<p>
+    @Html.ActionLink("Agregar otro", "Create", new { @class = "btn btn-success" })
+</p>
+<br>

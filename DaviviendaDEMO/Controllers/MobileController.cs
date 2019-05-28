@@ -1,5 +1,6 @@
 ﻿using DaviviendaDEMO.Models;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
 
@@ -12,9 +13,7 @@ namespace DaviviendaDEMO.Controllers
 
         [HttpPost]
         public IHttpActionResult Login(UsersModel obj)
-        {
-
-
+        {            
             return Ok(obj);
         }
 
@@ -30,14 +29,62 @@ namespace DaviviendaDEMO.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult GetLisPedidos(int idPedido)
+        public IHttpActionResult GetItem(string id)
         {
-            List<Entidad_Pago> list = new List<Entidad_Pago>();
+            Entidad_Pago entidad_Pago = db.Entidad_Pago.Find(id);
 
-            list.Add(new Entidad_Pago() { Empresa = "dsfadf", estado = true, id = "1", id_usuario = 2, Monto = 2323 });
-
-            return Ok(list);
+            return Ok(entidad_Pago);
         }
 
+
+        //"id,Empresa,Monto,id_usuario,estado"
+        [HttpPost]
+        public IHttpActionResult Add(Entidad_Pago obj)
+        {
+            var entidad_Pago = db.Entidad_Pago.Find(obj.id);
+
+            if (entidad_Pago != null) {
+
+                return Ok("Exist");
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                db.Entidad_Pago.Add(obj);
+                db.SaveChanges();                
+            }
+
+            return Ok("Ok");
+        }
+
+        
+        [HttpGet]
+        public IHttpActionResult delete(string id)
+        {
+            Entidad_Pago entidad_Pago = db.Entidad_Pago.Find(id);
+            if (entidad_Pago == null)
+            {
+                return Ok("Bad");
+            }
+
+            return Ok("Ok");
+        }
+
+
+        //"id,Empresa,Monto,id_usuario,estado"
+        [HttpPost]
+        public IHttpActionResult Edit(Entidad_Pago obj)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(obj).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return Ok(obj);
+        }
+
+              
     }
 }
